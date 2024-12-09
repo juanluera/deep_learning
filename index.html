@@ -1,0 +1,398 @@
+<html>
+<head>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+<link rel="shortcut icon" href="images/icon.ico">
+<style type="text/css">
+	body {
+		background-color: #f5f9ff;
+	}
+
+	/* Hide both math displays initially, will display based on JS detection */
+  .mathjax-mobile, .mathml-non-mobile { display: none; }
+
+  /* Show the MathML content by default on non-mobile devices */
+  .show-mathml .mathml-non-mobile { display: block; }
+  .show-mathjax .mathjax-mobile { display: block; }
+
+	.content-margin-container {
+		display: flex;
+		width: 100%; /* Ensure the container is full width */
+		justify-content: left; /* Horizontally centers the children in the container */
+		align-items: center;  /* Vertically centers the children in the container */
+	}
+	.main-content-block {
+		width: 70%; /* Change this percentage as needed */
+    max-width: 1100px; /* Optional: Maximum width */
+		background-color: #fff;
+		border-left: 1px solid #DDD;
+		border-right: 1px solid #DDD;
+		padding: 8px 8px 8px 8px;
+		font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;#"Avenir";
+	}
+	.margin-left-block {
+			font-size: 14px;
+			width: 15%; /* Change this percentage as needed */
+			max-width: 130px; /* Optional: Maximum width */
+			position: relative;
+			margin-left: 10px;
+			text-align: left;
+			font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;#"Avenir";
+			padding: 5px;
+	}
+	.margin-right-block {
+			font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;#"Avenir";
+			font-size: 14px;
+			width: 25%; /* Change this percentage as needed */
+			max-width: 256px; /* Optional: Maximum width */
+			position: relative;
+			text-align: left;
+			padding: 10px;  /* Optional: Adds padding inside the caption */
+	}
+
+	img {
+			max-width: 100%; /* Make sure it fits inside the container */
+			height: auto;
+			display: block;
+			margin: auto;
+	}
+	.my-video {
+			max-width: 100%; /* Make sure it fits inside the container */
+			height: auto;
+			display: block;
+			margin: auto;
+	}
+	/* Hide both video displays initially, will display based on JS detection */
+  .vid-mobile, .vid-non-mobile { display: none; }
+
+  /* Show the video content by default on non-mobile devices */
+  .show-vid-mobile .vid-mobile { display: block; }
+  .show-vid-non-mobile .vid-non-mobile { display: block; }
+
+	a:link,a:visited
+	{
+		color: #0e7862; /*#1367a7;*/
+		text-decoration: none;
+	}
+	a:hover {
+		color: #24b597; /*#208799;*/
+	}
+
+	h1 {
+		font-size: 18px;
+		margin-top: 4px;
+		margin-bottom: 10px;
+	}
+
+	table.header {
+    font-weight: 300;
+    font-size: 17px;
+    flex-grow: 1;
+		width: 70%;
+    max-width: calc(100% - 290px); /* Adjust according to the width of .paper-code-tab */
+	}
+	table td, table td * {
+	    vertical-align: middle;
+	    position: relative;
+	}
+	table.paper-code-tab {
+	    flex-shrink: 0;
+	    margin-left: 8px;
+	    margin-top: 8px;
+	    padding: 0px 0px 0px 8px;
+	    width: 290px;
+	    height: 150px;
+	}
+
+	.layered-paper { /* modified from: http://css-tricks.com/snippets/css/layered-paper/ */
+		box-shadow:
+		        0px 0px 1px 1px rgba(0,0,0,0.35), /* The top layer shadow */
+		        5px 5px 0 0px #fff, /* The second layer */
+		        5px 5px 1px 1px rgba(0,0,0,0.35), /* The second layer shadow */
+		        10px 10px 0 0px #fff, /* The third layer */
+		        10px 10px 1px 1px rgba(0,0,0,0.35); /* The third layer shadow */
+		margin-top: 5px;
+		margin-left: 10px;
+		margin-right: 30px;
+		margin-bottom: 5px;
+	}
+
+	hr {
+    height: 1px; /* Sets the height of the line to 1 pixel */
+    border: none; /* Removes the default border */
+    background-color: #DDD; /* Sets the line color to black */
+  }
+
+	div.hypothesis {
+		width: 80%;
+		background-color: #EEE;
+		border: 1px solid black;
+		border-radius: 10px;
+		-moz-border-radius: 10px;
+		-webkit-border-radius: 10px;
+		font-family: Courier;
+		font-size: 18px;
+		text-align: center;
+		margin: auto;
+		padding: 16px 16px 16px 16px;
+	}
+
+	div.citation {
+    font-size: 0.8em;
+    background-color:#fff;
+    padding: 10px;
+		height: 200px;
+  }
+
+	.fade-in-inline {
+		position: absolute;
+		text-align: center;
+		margin: auto;
+		-webkit-mask-image: linear-gradient(to right,
+																			transparent 0%,
+																			transparent 40%,
+																			black 50%,
+																			black 90%,
+																			transparent 100%);
+		mask-image: linear-gradient(to right,
+																transparent 0%,
+																transparent 40%,
+																black 50%,
+																black 90%,
+																transparent 100%);
+		-webkit-mask-size: 8000% 100%;
+		mask-size: 8000% 100%;
+		animation-name: sweepMask;
+		animation-duration: 4s;
+		animation-iteration-count: infinite;
+		animation-timing-function: linear;
+		animation-delay: -1s;
+	}
+
+	.fade-in2-inline {
+			animation-delay: 1s;
+	}
+
+	.inline-div {
+			position: relative;
+	    display: inline-block; /* Makes both the div and paragraph inline-block elements */
+	    vertical-align: top; /* Aligns them at the top, you can adjust this to middle, bottom, etc., based on your needs */
+	    width: 50px; /* Optional: Adds space between the div and the paragraph */
+	}
+
+</style>
+
+	  <title>The Platonic Representation Hypothesis</title>
+      <meta property="og:title" content="The Platonic Representation Hypothesis" />
+			<meta charset="UTF-8">
+  </head>
+
+  <body>
+
+		<div class="content-margin-container">
+				<div class="margin-left-block">
+				</div>
+		    <div class="main-content-block">
+						<table class="header" align=left>
+								<tr>
+									<td colspan=4>
+										<span style="font-size: 32px; font-family: 'Courier New', Courier, monospace; /* Adds fallbacks */"> 6.7960 Final Project</span>
+									</td>
+								</tr>
+								<tr>
+										<td align=left>
+												<span style="font-size:17px"><a href="your_website">Juan Luera</a></span>
+										</td>
+										<td align=left>
+												<span style="font-size:17px"><a href="your_partner's_website">Gyalpo Dongo</a></span>
+										</td>
+								<tr>
+									<td colspan=4 align=left><span style="font-size:18px">Final project for 6.7960, MIT</span></td>
+								</tr>
+						</table>
+					</div>
+					<div class="margin-right-block">
+					</div>
+		</div>
+
+		<div class="content-margin-container" id="intro">
+				<div class="margin-left-block">
+          <!-- table of contents here -->
+          <div style="position:fixed; max-width:inherit; top:max(20%,120px)">
+              <b style="font-size:16px">Outline</b><br><br>
+              <a href="#intro">Introduction</a><br><br>
+              <a href="#background_and_related_work">Background and Related Work</a><br><br>
+              <a href="#methods_and_experiment">Methods and Experiment</a><br><br>
+			  <a href="#result_and_analysis">Result and Analysis</a><br><br>
+			  <a href="#discussion_and_conclusion">Discussion and Conclusion</a><br><br>
+          </div>
+				</div>
+		    <div class="main-content-block">
+            <!--You can embed an image like this:-->
+            <img src="./images/your_image_here.png" width=512px/>
+		    </div>
+		    <div class="margin-right-block">
+						Caption for the image.
+		    </div>
+		</div>
+
+    <div class="content-margin-container" id="intro">
+				<div class="margin-left-block">
+				</div>
+		    <div class="main-content-block">
+						<h1>Introduction</h1>
+						<p><strong>Opening Hook:</strong> Briefly introduce the importance of aligning large language models (LLMs) with human preferences and the challenges involved in reinforcement learning from human feedback (RLHF).</p>
+    <p><strong>Context:</strong> Discuss the role of Proximal Policy Optimization (PPO) as a backbone for RLHF and its practical success in training aligned LLMs like ChatGPT.</p>
+    <p><strong>Problem Statement:</strong> Highlight limitations of current methods:
+      <ul>
+        <li>PPO's convergence speed and stability issues.</li>
+        <li>Simplified alternatives like Direct Preference Optimization (DPO) and Kahneman-Tversky Optimization (KTO) sacrifice online learning benefits.</li>
+      </ul>
+    </p>
+    <p><strong>Proposed Solution:</strong> Introduce the concept of <em>Optimistic PPO</em>, inspired by Optimistic Multiplicative Weights Update (OMWU), to combine theoretical benefits of optimism with PPO's practical strengths.</p>
+    <p><strong>Thesis Statement:</strong> Explain how this novel approach could improve convergence rates, stabilize training, and retain online learning advantages.</p>
+						</div>
+		    <div class="margin-right-block">
+						Margin note that clarifies some detail #main-content-block for intro section.
+		    </div>
+		</div>
+
+		<div class="content-margin-container" id="background_and_related_work">
+				<div class="margin-left-block">
+				</div>
+		    <div class="main-content-block">
+					<h1>Background and Related Work</h1>
+					<p><strong>Overview of PPO in RLHF:</strong> Explain PPO’s role in policy optimization and its clipped objective function for stable training. Discuss its success in aligning LLMs but note its limitations in convergence speed and stability.</p>
+					<p><strong>Simplified Preference Learning Methods:</strong> Summarize DPO (Rafailov et al., 2023) and KTO (Ethayarajh et al., 2023), emphasizing their simplicity but lack of online learning capabilities.</p>
+					<p><strong>Optimistic Algorithms:</strong> Introduce Optimistic Multiplicative Weights Update (OMWU) from computational game theory, highlighting its superior convergence properties.</p>
+					<p><strong>Research Gap:</strong> Emphasize that no prior work has incorporated optimism into PPO for preference learning, making this a novel contribution.</p><br><br>
+
+          Now let's write some math!<br>
+          <center>
+            <math xmlns="http://www.w3.org/1998/Math/MathML">
+              <mrow>
+                <mrow>
+                  <mo>&#x2202;</mo>
+                  <mi>y</mi>
+                </mrow>
+                <mo>/</mo>
+                <mrow>
+                  <mo>&#x2202;</mo>
+                  <mi>x</mi>
+                </mrow>
+              </mrow>
+              <mo>=</mo>
+              <mi>x</mi>
+            </math>
+          </center>
+          <br>
+          It's probably best to ask an LLM to help do the web
+          formatting for math. You can tell it "convert this latex equation into MathML: $$\frac{\partial dy}{\partial dx} = x$$"
+          But it took me a few tries. So, if you get frustrated, you can embed an image of the equation, or use other packages for
+          rendering equations on webpages.
+		    </div>
+		    <div class="margin-right-block" style="transform: translate(0%, -100%);"> <!-- you can move the margin notes up and down with translate -->
+          Interestingly, Plato also asked if X does Y, in <a href="#ref_1">[1]</a>.
+		    </div>
+		</div>
+
+		<div class="content-margin-container">
+				<div class="margin-left-block">
+				</div>
+		    <div class="main-content-block">
+            <h1>Another section</h1>
+            In this section we embed a video:
+						<video class='my-video' loop autoplay muted style="width: 725px">
+								<source src="./images/mtsh.mp4" type="video/mp4">
+						</video>
+		    </div>
+		    <div class="margin-right-block">
+					A caption for the video could go here.
+		    </div>
+		</div>
+
+		<div class="content-margin-container" id="methods_and_experiment">
+				<div class="margin-left-block">
+				</div>
+		    <div class="main-content-block">
+						<h1>Methods and Experimet</h1>
+						<h2>3.1 Theoretical Framework</h2>
+    <p><strong>Modified PPO Objective:</strong> Present the mathematical formulation for incorporating optimism into PPO’s value function using a predictive term (\(m^{t+1}\)) based on advantage estimation. Adaptation of the clipped surrogate objective to include optimistic updates. Derivation of a novel loss function combining policy improvement with optimistic predictions.</p>
+    <p><strong>Connection to OMWU:</strong> Establish theoretical links between OMWU and the modified PPO framework.</p>
+
+    <h2>3.2 Implementation Details</h2>
+    <p>Description of the training pipeline for fine-tuning LLaMA 2 using Optimistic PPO.</p>
+    <ul>
+      <li>Baseline methods: Standard PPO with RLHF, DPO, and KTO as simplified preference learning alternatives.</li>
+    </ul>
+
+    <h2>3.3 Experimental Setup</h2>
+    <ul>
+      <li><strong>Evaluation metrics:</strong> Convergence rate, stability, preference alignment quality, computational efficiency.</li>
+      <li><strong>Dataset and Tasks:</strong> Specify datasets used for alignment experiments (e.g., preference-labeled text data).</li>
+    </ul>
+		    </div>
+		    <div class="margin-right-block">
+		    </div>
+		</div>
+
+		<div class="content-margin-container" id="result_and_analysis">
+			<div class="margin-left-block"></div>
+			<div class="main-content-block">
+			  <h1>4. Results and Analysis</h1>
+		  
+			  <h2>4.1 Quantitative Results</h2>
+			  <p>- Present comparative results across methods (Optimistic PPO, standard PPO, DPO, KTO): convergence rates over training epochs, stability metrics across multiple runs, preference alignment scores.</p>
+		  
+			  <h2>4.2 Qualitative Insights</h2>
+			  <p>- Analyze why Optimistic PPO achieves faster convergence or greater stability compared to baselines.</p>
+		  
+			  <h2>4.3 Computational Efficiency</h2>
+			  <p>- Compare resource usage across methods to evaluate practicality.</p>
+		  
+			</div>
+			<div class="margin-right-block"></div>
+		</div>
+
+		<div class="content-margin-container" id="discussion_and_conclusion">
+			<div class="margin-left-block"></div>
+			<div class="main-content-block">
+			  <h1>5. Discussion and Conclusion</h1>
+		  
+			  <h2>5.1 Key Findings</h2>
+			  <p>- Summarize the main outcomes: faster convergence and improved stability with Optimistic PPO; comparable or superior alignment quality relative to DPO/KTO.</p>
+		  
+			  <h2>5.2 Implications</h2>
+			  <p>- Discuss how Optimistic PPO could influence future RLHF methods and LLM alignment research.</p>
+		  
+			  <h2>5.3 Limitations</h2>
+			  <ul>
+				<li>- Added complexity in implementation.</li>
+				<li>- Scalability concerns for larger models or datasets.</li>
+			  </ul>
+		  
+			  <h2>5.4 Future Directions</h2>
+			  - Suggest areas for further exploration: extending Optimistic PPO to other RL tasks beyond preference learning.
+			</div>
+			<div class="margin-right-block"></div>
+		  </div>
+		
+		<div class="content-margin-container" id="citations">
+				<div class="margin-left-block">
+				</div>
+		    <div class="main-content-block">
+						<div class='citation' id="references" style="height:auto"><br>
+							<span style="font-size:16px">References:</span><br><br>
+							<a id="ref_1"></a>[1] <a href="https://en.wikipedia.org/wiki/Allegory_of_the_cave">Allegory of the Cave</a>, Plato, c. 375 BC<br><br>
+							<a id="ref_2"></a>[2] <a href="">A Human-Level AGI</a>, OpenAI, 2025<br><br>
+						</div>
+		    </div>
+		    <div class="margin-right-block">
+            <!-- margin notes for reference block here -->
+		    </div>
+		</div>
+
+	</body>
+
+</html>
