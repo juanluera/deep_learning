@@ -506,23 +506,56 @@
 		 <p><Strong>From PPO to PPO</Strong></p>
     <p>PPO and OPPO are quite similar in construction; in fact, they’re nearly identical. This is because we like the benefits that PPO offers and want to use them. The difference between the two is the advantage function.</p>
     
-    <h3>General Advantage Function</h3>
+    <p><strong>General Advantage Function</strong> </p>
     <p>Recall that in PPO our advantage function was the following:</p>
     <p>
-        <span style="font-size: 20px;">\( A^\pi(s, a) = Q^\pi(s, a) - V^\pi(s) \)</span>
+        <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+			<msup>
+				<mi>A</mi>
+				<mi>π</mi>
+			</msup>
+			<mo>(</mo>
+			<mi>s</mi>
+			<mo>,</mo>
+			<mi>a</mi>
+			<mo>) = </mo>
+			<msup>
+				<mi>Q</mi>
+				<mi>π</mi>
+			</msup>
+			<mo>(</mo>
+			<mi>s</mi>
+			<mo>,</mo>
+			<mi>a</mi>
+			<mo>) - </mo>
+			<msup>
+				<mi>V</mi>
+				<mi>π</mi>
+			</msup>
+			<mo>(</mo>
+			<mi>s</mi>
+			<mo>)</mo>.
+		</math>
     </p>
     <p>where:</p>
     <ul>
-        <li><i>Q<sup>π</sup>(s, a)</i>: The expected return for taking action <i>a</i> in state <i>s</i>.</li>
-        <li><i>V<sup>π</sup>(s)</i>: The expected return for being in state <i>s</i>.</li>
-    </ul>
-    <p>This measures how much better an action <i>a</i> is compared to the average value of the state. This is good when you are only considering immediate advantages and doesn't take into account previous or future states.</p>
+        <li>
+            <math xmlns="http://www.w3.org/1998/Math/MathML" display="inline">
+                <msup><mi>Q</mi><mi>π</mi></msup><mo>(</mo><mi>s</mi><mo>,</mo><mi>a</mi><mo>)</mo>:
+            </math> 
+            The expected return for taking action 
+            <math xmlns="http://www.w3.org/1998/Math/MathML" display="inline"><mi>a</mi></math> 
+            in state 
+            <math xmlns="http://www.w3.org/1998/Math/MathML" display="inline"><mi>s</mi></math>.
+        </li>
 
-
-    <h3>3.2 Implementation Details</h3>
-    <p>Description of the training pipeline for fine-tuning LLaMA 2 using Optimistic PPO.</p>
-    <ul>
-      <li>Baseline methods: Standard PPO with RLHF, DPO, and KTO as simplified preference learning alternatives.</li>
+        <li>
+            <math xmlns="http://www.w3.org/1998/Math/MathML" display="inline">
+                <msup><mi>V</mi><mi>π</mi></msup><mo>(</mo><mi>s</mi><mo>)</mo>:
+            </math> 
+            The expected return for being in state 
+            <math xmlns="http://www.w3.org/1998/Math/MathML" display="inline"><mi>s</mi></math>.
+        </li>
     </ul>
 
     <h2>3.3 Experimental Setup</h2>
