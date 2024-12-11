@@ -183,7 +183,7 @@
 
 </style>
 
-	  <title>The Platonic Representation Hypothesis</title>
+	  <title>6.7960 Final Project </title>
       <meta property="og:title" content="The Platonic Representation Hypothesis" />
 			<meta charset="UTF-8">
   </head>
@@ -242,17 +242,13 @@
 				</div>
 		    <div class="main-content-block">
 						<h1>Introduction</h1>
-						<p><strong>Opening Hook:</strong> Briefly introduce the importance of aligning large language models (LLMs) with human preferences and the challenges involved in reinforcement learning from human feedback (RLHF).</p>
-    <p><strong>Context:</strong> Discuss the role of Proximal Policy Optimization (PPO) as a backbone for RLHF and its practical success in training aligned LLMs like ChatGPT.</p>
-    <p><strong>Problem Statement:</strong> Highlight limitations of current methods:
-      <ul>
-        <li>PPO's convergence speed and stability issues.</li>
-        <li>Simplified alternatives like Direct Preference Optimization (DPO) and Kahneman-Tversky Optimization (KTO) sacrifice online learning benefits.</li>
-      </ul>
+						<p>
+							RLHF is a method used to fine-tune LLMs (Large Language Models) to better align with human values. As the capabilities of LLMs have increased so has their potential to cause harm, ever increasing the importance of value alignment.  As discussed in (Zheng et al.) "Despite the capacities, since LLMs are trained to capture the data characteristics of pre-training corpora (including both high-quality and low-quality data), these models are likely to express unintended behaviors such as making up facts, generating biased or toxic text, or even harmful content for humans”. Alignment Algorithms such as RLHF aim to address these issues by training models that are helpful, honest, and harmless. 
+
+    <p><strong>Problem Statement:</strong> Most recent work in LLM alignment has primarily relied on PPO, or in alternatives such as KTO, and DPO. Techniques such as KTO and DPO aim to simplify RLHF by avoiding a reward model, but fail to capitalize on the potential benefits that online learning that algorithms such as PPO provide.  Drawing inspiration from computational game theory, specifically the superior convergence properties of Optimistic Multiplicative Weights Update (OMWU), we propose incorporating optimism into PPO.
+      
     </p>
-    <p><strong>Proposed Solution:</strong> Introduce the concept of <em>Optimistic PPO</em>, inspired by Optimistic Multiplicative Weights Update (OMWU), to combine theoretical benefits of optimism with PPO's practical strengths.</p>
-    <p><strong>Thesis Statement:</strong> Explain how this novel approach could improve convergence rates, stabilize training, and retain online learning advantages.</p>
-						</div>
+    <p><strong>Thesis Statement:</strong>   This novel approach could potentially combine the theoretical benefits of optimistic algorithms such as better genralization with the practical success of PPO in LLM alignment.</div>
 		    <div class="margin-right-block">
 						Margin note that clarifies some detail #main-content-block for intro section.
 		    </div>
@@ -384,8 +380,10 @@
 		    <div class="main-content-block">
 						<div class='citation' id="references" style="height:auto"><br>
 							<span style="font-size:16px">References:</span><br><br>
-							<a id="ref_1"></a>[1] <a href="https://en.wikipedia.org/wiki/Allegory_of_the_cave">Allegory of the Cave</a>, Plato, c. 375 BC<br><br>
-							<a id="ref_2"></a>[2] <a href="">A Human-Level AGI</a>, OpenAI, 2025<br><br>
+							<a id="ref_1"></a>[1] Rafailov et al. (2023). "Direct Preference Optimization: Your Language Model is Secretly a Reward Model"<br><br>
+        					<a id="ref_2"></a>[2] Ethayarajh et al. (2023). "KTO: Model Alignment as Prospect Theoretic Optimization"<br><br>
+        					<a id="ref_3"></a>[3] Schulman et al. (2017). "Proximal Policy Optimization Algorithms"<br><br>
+        					<a id="ref_4"></a>[4] Zheng et al. (2023). "Delve into PPO: Implementation Matters for Stable RLHF"<br><br>
 						</div>
 		    </div>
 		    <div class="margin-right-block">
