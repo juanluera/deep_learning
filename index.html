@@ -233,7 +233,7 @@
             <img src="./images/your_image_here.png" width=512px/>
 		    </div>
 		    <div class="margin-right-block">
-						Caption for the image.
+				High-level overview of reinforcement learning from human feedback (wikipedia)
 		    </div>
 		</div>
 
@@ -306,15 +306,7 @@
 						leading to suboptimal reward model that might not align with human values. Furthermore, PPO is
 						a conservative algorithm that may not always discover the optimal alignments. One way to address
 						these limitations is to use a different different reinforcement learning algorithm such as optimistic
-						PPO.</p>
-					<p><strong>Overview of PPO in RLHF:</strong> Explain PPO’s role in policy optimization and its clipped objective function for stable training. Discuss its success in aligning LLMs but note its limitations in convergence speed and stability.</p>
-					<p><strong>Simplified Preference Learning Methods:</strong> Summarize DPO (Rafailov et al., 2023) and KTO (Ethayarajh et al., 2023), emphasizing their simplicity but lack of online learning capabilities.</p>
-					<p><strong>Optimistic Algorithms:</strong> Introduce Optimistic Multiplicative Weights Update (OMWU) from computational game theory, highlighting its superior convergence properties.</p>
-					<p><strong>Research Gap:</strong> Emphasize that no prior work has incorporated optimism into PPO for preference learning, making this a novel contribution.</p><br><br>
-
-         
-          
-
+						PPO.</p.>
          
 		    </div>
 
@@ -329,7 +321,7 @@
 				<div class="margin-left-block">
 				</div>
 		    <div class="main-content-block">
-						<h1>Methods and Experimet</h1>
+						<h1>Methods and Experiment</h1>
 						<h2>Proximal Policy Optimization (PPO)</h2>
     <p>Proximal Policy Optimization (PPO) is a reinforcement learning algorithm designed to improve
 		training stability and efficiency.PPO Loss function shown below:</p>
@@ -557,6 +549,137 @@
             <math xmlns="http://www.w3.org/1998/Math/MathML" display="inline"><mi>s</mi></math>.
         </li>
     </ul>
+
+	<p><strong>Optimistic  Advantage Function</strong></p>
+  <p>The optimistic advantage function (used in OPPO) is defined as:</p>
+  <math xmlns="http://www.w3.org/1998/Math/MathML">
+    <mrow>
+      <msub>
+        <mi>A</mi>
+        <mi>t</mi>
+      </msub>
+      <mo>=</mo>
+      <msub>
+        <mi>r</mi>
+        <mi>t</mi>
+      </msub>
+      <mo>+</mo>
+      <mi>&gamma;</mi>
+      <msub>
+        <mi>V</mi>
+        <mrow>
+          <mo>&pi;</mo>
+        </mrow>
+      </msub>
+      <mo>(</mo>
+      <msub>
+        <mi>s</mi>
+        <mrow><mi>t+1</mi></mrow>
+      </msub>
+      <mo>)</mo>
+      <mo>-</mo>
+      <msub>
+        <mi>V</mi>
+        <mrow><mo>&pi;</mo></mrow>
+      </msub>
+      <mo>(</mo>
+      <msub><mi>s</mi><mi>t</mi></msub><mo>)</mo>
+      <mo>+</mo>
+      <mi>&gamma;</mi><mi>&lambda;</mi><msub><mi>A</mi><mrow><mi>t+1</mi></mrow></msub>
+    </mrow>
+  </math>
+
+  <p>Where:</p>
+
+  <ul>
+    <li><math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow>
+            <msub><mi>r</mi><mi>t</mi></msub> 
+            <mi>+</mi>
+            <mi>&gamma;</mi>
+      <msub>
+        <mi>V</mi>
+        <mrow>
+          <mo>&pi;</mo>
+        </mrow>
+      </msub>
+      <mo>(</mo>
+      <msub>
+        <mi>s</mi>
+        <mrow><mi>t+1</mi></mrow>
+      </msub>
+      <mo>)</mo>
+      <mo>-</mo>
+		
+	  <msub>
+        <mi>V</mi>
+        <mrow>
+          <mo>&pi;</mo>
+        </mrow>
+      </msub>
+		
+		<mo>(</mo>
+		<msub><mi>s</mi><mi>t</mi></msub><mo>)</mo>
+          </mrow></math>: This term corresponds to the temporal difference (TD) error, which is similar to the general advantage function.
+    </li>
+
+    <li><math xmlns="http://www.w3.org/1998/Math/MathML">
+		<mi>&gamma;</mi><mi>&lambda;</mi><msub><mi>A</mi><mrow><mi>t+1</mi></mrow></msub></math>: This additional term recursively propagates future advantages backward, introducing optimism about future rewards.
+    </li>
+
+  </ul>
+<p>This modification makes the policy updates more optimistic by looking ahead and considering po-
+	tential future rewards. It encourages the model to explore actions that might lead to higher rewards,
+	even if they are uncertain. This approach is especially helpful in environments where rewards are
+	sparse or hard to predict, as it helps the model discover better strategies over time</p>
+	<p><math xmlns="http://www.w3.org/1998/Math/MathML">
+		<center>
+		<table>
+		  <thead>
+			<tr>
+			  <th>Feature</th>
+			  <th>PPO</th>
+			  <th>OPPO</th>
+			</tr>
+		  </thead>
+		  <tbody>
+			<tr>
+			  <td>Policy Updates</td>
+			  <td>Conservative updates with clipping</td>
+			  <td>Optimistic updates incorporating future advantages</td>
+			</tr>
+			<tr>
+			  <td>Exploration</td>
+			  <td>Limited exploration due to trust region</td>
+			  <td>Encourages exploration in uncertain areas</td>
+			</tr>
+			<tr>
+			  <td>Advantage Function</td>
+			  <td>
+				<center>
+				<math xmlns="http://www.w3.org/1998/Math/MathML">
+
+				  <msup><mi>A</mi><mrow><mi>&pi;</mi><msub><mi>&theta;</mi><mi>k</mi></msub></mrow></msup>(s, a) = Q(s, a) − V(s)
+				</math>
+			</center>
+			  </td>
+			  <td>
+				Adjusted with 
+				<math xmlns="http://www.w3.org/1998/Math/MathML">
+				  A<sub>t</sub> = r<sub>t</sub> + ... + &gamma;&lambda;A<sub>t+1</sub>
+				</math>
+			  </td>
+			</tr>
+			<tr>
+			  <td>Stability</td>
+			  <td>High stability</td>
+			  <td>Balances stability with optimistic updates</td>
+			</tr>
+		  </tbody>
+		</table>
+	</center>
+	  </math>
+	  </p>
 
     <h2>3.3 Experimental Setup</h2>
     <ul>
