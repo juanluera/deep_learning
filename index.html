@@ -258,66 +258,252 @@
 				<div class="margin-left-block">
 				</div>
 		    <div class="main-content-block">
-					<h1>Background and Related Work</h1>
+					<h1>Background and Related Work</h1> 
+					<p><strong>What is RLHF</strong> Reinforcement Learning from Human Feedback is a machine learning technique that combines hu-
+						man input with reinforcement learning in order to align LLMs with human values. This technique
+						is particularly useful when you struggle to define success. In certain tasks, such as ethical decisions
+						or creating chat bots that talk like a human its often hard to have a mathematical threshold for how
+						good a model is. RLHF is able to perform this task by fine-tuning models so that they act/respond
+						as a we would like them to. RLHF can be divided into three stages:
+
+						<ul>
+							<li>
+								<strong>Pretraining:</strong> The model that you want to fine-tune is pre-trained using traditional supervised learning methods (supervised fine-tuning). This gives the model a baseline alignment and a foundational understanding of language.
+							</li>
+							<li>
+								<strong>Reward Model Training:</strong> Human feedback is collected and used to train a "reward model." In other words, humans evaluate the outputs of a model based on a certain metric. This evaluation data is collected and used to train the reward model. This model is used in the RLHF loop to assign rewards/values to the outputs of the pre-trained model.
+							</li>
+							<li>
+								<strong>Reinforcement Learning:</strong> Using the reward model outputs as guidance, the model undergoes reinforcement learning. Fundamentally, what happens is that a reinforcement learning algorithm called Proximal Policy Optimization outputs a loss value that is used to update the weights of the pre-trained model. This is repeated for every prompt until you’re left with a model that is closely aligned to human values.
+							</li>
+						</ul>
+					
+					</p>
+
+					<p><strong>Why is Reinforcement Learning from Human Feedback (RLHF) Important?</strong> While, there exist other ways to fine-tune models RLHF has proven to me one of the most robust and
+						scalable. Compared to traditional reinforcement learning that relies on predefined rewards (which
+						often aren’t complex enough to represent human values) RLHF is able to capture the complexity of
+						human morality better due to to feedback it receives from the reward model. Furthermore, it doesn’t
+						require human annotators at every step which makes it scalable. This flexibility and scalability have
+						made RLHF ideal for:
+						<ul>
+							<li>Natural Language Processing: Improving chatbot responses to be more coherent, and polite.
+							</li>
+							<li>
+								Ethical Decision-Making: Training autonomous systems like self-driving cars to reflect hu-
+								man ethical judgments in complex scenarios.
+							</li>
+							<li>
+								Creative Tasks: Enhancing generative models for art, writing, or humor where subjective human preferences are important. For instance AI systemsm like Chat GPT use RLHF to ensure their responses
+								align with the users ethical considerations and expectations.</li>
+						</ul>
+						<p>
+					<p><strong>
+						What are the Limitations of RLHF
+					</strong> 
+						While RLHF is one of the best ways to perform alignment that we currently know of, it’s not per-
+						fect. One limitation is its ability to respond to bias. Human feedback can be biased or inconsistent
+						leading to suboptimal reward model that might not align with human values. Furthermore, PPO is
+						a conservative algorithm that may not always discover the optimal alignments. One way to address
+						these limitations is to use a different different reinforcement learning algorithm such as optimistic
+						PPO.</p>
 					<p><strong>Overview of PPO in RLHF:</strong> Explain PPO’s role in policy optimization and its clipped objective function for stable training. Discuss its success in aligning LLMs but note its limitations in convergence speed and stability.</p>
 					<p><strong>Simplified Preference Learning Methods:</strong> Summarize DPO (Rafailov et al., 2023) and KTO (Ethayarajh et al., 2023), emphasizing their simplicity but lack of online learning capabilities.</p>
 					<p><strong>Optimistic Algorithms:</strong> Introduce Optimistic Multiplicative Weights Update (OMWU) from computational game theory, highlighting its superior convergence properties.</p>
 					<p><strong>Research Gap:</strong> Emphasize that no prior work has incorporated optimism into PPO for preference learning, making this a novel contribution.</p><br><br>
 
-          Now let's write some math!<br>
-          <center>
-            <math xmlns="http://www.w3.org/1998/Math/MathML">
-              <mrow>
-                <mrow>
-                  <mo>&#x2202;</mo>
-                  <mi>y</mi>
-                </mrow>
-                <mo>/</mo>
-                <mrow>
-                  <mo>&#x2202;</mo>
-                  <mi>x</mi>
-                </mrow>
-              </mrow>
-              <mo>=</mo>
-              <mi>x</mi>
-            </math>
-          </center>
-          <br>
-          It's probably best to ask an LLM to help do the web
-          formatting for math. You can tell it "convert this latex equation into MathML: $$\frac{\partial dy}{\partial dx} = x$$"
-          But it took me a few tries. So, if you get frustrated, you can embed an image of the equation, or use other packages for
-          rendering equations on webpages.
+         
+          
+
+         
 		    </div>
+
 		    <div class="margin-right-block" style="transform: translate(0%, -100%);"> <!-- you can move the margin notes up and down with translate -->
           Interestingly, Plato also asked if X does Y, in <a href="#ref_1">[1]</a>.
 		    </div>
 		</div>
 
-		<div class="content-margin-container">
-				<div class="margin-left-block">
-				</div>
-		    <div class="main-content-block">
-            <h1>Another section</h1>
-            In this section we embed a video:
-						<video class='my-video' loop autoplay muted style="width: 725px">
-								<source src="./images/mtsh.mp4" type="video/mp4">
-						</video>
-		    </div>
-		    <div class="margin-right-block">
-					A caption for the video could go here.
-		    </div>
-		</div>
+		
 
 		<div class="content-margin-container" id="methods_and_experiment">
 				<div class="margin-left-block">
 				</div>
 		    <div class="main-content-block">
 						<h1>Methods and Experimet</h1>
-						<h2>3.1 Theoretical Framework</h2>
-    <p><strong>Modified PPO Objective:</strong> Present the mathematical formulation for incorporating optimism into PPO’s value function using a predictive term (\(m^{t+1}\)) based on advantage estimation. Adaptation of the clipped surrogate objective to include optimistic updates. Derivation of a novel loss function combining policy improvement with optimistic predictions.</p>
-    <p><strong>Connection to OMWU:</strong> Establish theoretical links between OMWU and the modified PPO framework.</p>
+						<h2>Proximal Policy Optimization (PPO)</h2>
+    <p>Proximal Policy Optimization (PPO) is a reinforcement learning algorithm designed to improve
+		training stability and efficiency.PPO Loss function shown below:</p>
+    <math xmlns="http://www.w3.org/1998/Math/MathML">
+		<mrow>
+		  <mi>L</mi>
+		  <mo>(</mo>
+		  <mi>s</mi>
+		  <mo>,</mo>
+		  <mi>a</mi>
+		  <mo>,</mo>
+		  <mi>&theta;</mi>
+		  <msub><mi>k</mi></msub>
+			
+		  
+		  <mo>,</mo>
+		  <mi>&theta;</mi>
+		  <mo>)</mo>
+		  <mo>=</mo>
+		  <mi>min</mi>
+		  <mo>(</mo>
+		  <mrow>
+			<mfrac>
+			  <mrow>
+				<mi>&pi;</mi>
+				<mi>&theta;</mi>
+				<mo>(</mo>
+				<mi>a</mi>
+				<mo>|</mo>
+				<mi>s</mi>
+				<mo>)</mo>
+			  </mrow>
+			  <mrow>
+				<mi>&pi;</mi>
+				<mi>&theta;</mi>
+				
+				  <mi>k</mi>
+				
+				<mo>(</mo>
+				<mi>a</mi>
+				<mo>|</mo>
+				<mi>s</mi>
+				<mo>)</mo>
+			  </mrow>
+			</mfrac>
+			<mi>A</mi>
+			<msup>
+			  <mi>&pi;</mi>
+			  <mi>&theta;</mi>
+			  <mi>k</mi>
+			</msup>
+			<mo>(</mo>
+			<mi>s</mi>
+			<mo>,</mo>
+			<mi>a</mi>
+			<mo>)</mo>
+		  </mrow>
+		  <mo>,</mo>
+		  <mrow>
+			<mi>clip</mi>
+			<mo>(</mo>
+			<mfrac>
+			  <mrow>
+				<mi>&pi;</mi>
+				<mi>&theta;</mi>
+				<mo>(</mo>
+				<mi>a</mi>
+				<mo>|</mo>
+				<mi>s</mi>
+				<mo>)</mo>
+			  </mrow>
+			  <mrow>
+				<mi>&pi;</mi>
+				<mi>&theta;</mi>
+				
+				  <mi>k</mi>
+				
+				<mo>(</mo>
+				<mi>a</mi>
+				<mo>|</mo>
+				<mi>s</mi>
+				<mo>)</mo>
+			  </mrow>
+			</mfrac>
+			<mo>,</mo>
+			<mrow>
+			  <mn>1</mn>
+			  <mo>-</mo>
+			  <mi>&epsilon;</mi>
+			</mrow>
+			<mo>,</mo>
+			<mrow>
+			  <mn>1</mn>
+			  <mo>+</mo>
+			  <mi>&epsilon;</mi>
+			</mrow>
+			<mo>)</mo>
+			<mi>A</mi>
+			<msup>
+			  <mi>&pi;</mi>
+			  <mi>&theta;</mi>
+			  <mi>k</mi>
+			</msup>
+			<mo>(</mo>
+			<mi>s</mi>
+			<mo>,</mo>
+			<mi>a</mi>
+			<mo>)</mo>
+		  </mrow>
+		  <mo>)</mo>
+		</mrow>
+	  </math>
+	  
+	  <h2>Explanation of Terms</h2>
+	  <ol>
+		  <li>
+			  <math xmlns="http://www.w3.org/1998/Math/MathML" display="inline">
+				  <mfrac>
+					  <msub><mi>π</mi><mi>θ</mi></msub>
+					  <msub><mi>π</mi><msub><mi>θ</mi><mi>k</mi></msub></msub>
+				  </mfrac>
+				  <mo>(</mo><mi>a</mi><mo>|</mo><mi>s</mi><mo>)</mo>:
+			  </math> 
+			  The ratio of the current policy’s probability of taking action 
+			  <math xmlns="http://www.w3.org/1998/Math/MathML"><mi>a</mi></math> 
+			  in state 
+			  <math xmlns="http://www.w3.org/1998/Math/MathML"><mi>s</mi></math> 
+			  to the old policy’s probability. This measures how much the new policy deviates from the old one.
+		  </li>
+		  <mo>(</mo>
+		  <mi>a</mi>
+		  <mo>|</mo>
+		  <mi>s</mi>
+		  <mo>)</mo>  
+		  <li>
+			  <math xmlns="http://www.w3.org/1998/Math/MathML" display="inline">
+				  <msub><mi>A</mi><msub><mi>π</mi><msub><mi>θ</mi><mi>k</mi></msub></msub></msub>
+				  <mo>(</mo><mi>a</mi> <mo>|</mo><mi>a</mi><mo>)</mo>:
+			  </math> 
+			  The advantage function under the old policy, which indicates how much better an action 
+			  <math xmlns="http://www.w3.org/1998/Math/MathML"><mi>a</mi></math> 
+			  is compared to the average action in state 
+			  <math xmlns="http://www.w3.org/1998/Math/MathML"><mi>s</mi></math>. It is defined as:
+			  <br />
+			  <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+				  <msub><mi>A</mi><msub><mi>π</mi><msub><mi>θ</mi><mi>k</mi></msub></msub></msub>
+				  <mo>(</mo><mi>s</mi> <mo>,</mo><mi>a</mi><mo>) = </mo>
+				  <msub><mi>Q</mi><msub><mi>π</mi><msub><mi>θ</mi><mi>k</mi></msub></msub></msub>
+				  <mo>(</mo><mi>s</mi><mo>,</mo><mi>a</mi><mo>) - </mo>
+				  <msub><mi>V</mi><msub><mi>π</mi><msub><mi>θ</mi><mi>k</mi></msub></msub></msub>
+				  <mo>(</mo><mi>s</mi><mo>)</mo>.
+			  </math>
+		  </li>
+  
+		  <li>
+			  <math xmlns="http://www.w3.org/1998/Math/MathML" display="inline">
+				ϵ
+			  </math>ϵ: The clipping parameter that limits how much the ratio 
+			  <math xmlns="http://www.w3.org/1998/Math/MathML">
+				  <mfrac>
+					  <msub><mi>π</mi><mi>θ</mi></msub>
+					  <msub><mi>π</mi><msub><mi>θ</mi><mn>k</mn></msub></msub>
+				  </mfrac>
+			  </math>
+			  can deviate from 1. This ensures that policy updates remain stable and do not change too much.
+		  </li>
+  
+		  
+	  </ol>
+  
+	  <p>
+		  Due to this construction that rewards alignment and punishes large deviations, PPO has become a widely used robust algorithm for fine-tuning.
 
-    <h2>3.2 Implementation Details</h2>
+    <h3>3.2 Implementation Details</h3>
     <p>Description of the training pipeline for fine-tuning LLaMA 2 using Optimistic PPO.</p>
     <ul>
       <li>Baseline methods: Standard PPO with RLHF, DPO, and KTO as simplified preference learning alternatives.</li>
