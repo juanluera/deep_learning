@@ -443,7 +443,7 @@
 		</mrow>
 	  </math>
 	  
-	  <h2>Explanation of Terms</h2>
+	  <p><strong>Explanation of Terms</strong> </p>
 	  <ol>
 		  <li>
 			  <math xmlns="http://www.w3.org/1998/Math/MathML" display="inline">
@@ -502,6 +502,22 @@
   
 	  <p>
 		  Due to this construction that rewards alignment and punishes large deviations, PPO has become a widely used robust algorithm for fine-tuning.
+
+		 <p><Strong>From PPO to PPO</Strong></p>
+    <p>PPO and OPPO are quite similar in construction; in fact, they’re nearly identical. This is because we like the benefits that PPO offers and want to use them. The difference between the two is the advantage function.</p>
+    
+    <h3>General Advantage Function</h3>
+    <p>Recall that in PPO our advantage function was the following:</p>
+    <p>
+        <span style="font-size: 20px;">\( A^\pi(s, a) = Q^\pi(s, a) - V^\pi(s) \)</span>
+    </p>
+    <p>where:</p>
+    <ul>
+        <li><i>Q<sup>π</sup>(s, a)</i>: The expected return for taking action <i>a</i> in state <i>s</i>.</li>
+        <li><i>V<sup>π</sup>(s)</i>: The expected return for being in state <i>s</i>.</li>
+    </ul>
+    <p>This measures how much better an action <i>a</i> is compared to the average value of the state. This is good when you are only considering immediate advantages and doesn't take into account previous or future states.</p>
+
 
     <h3>3.2 Implementation Details</h3>
     <p>Description of the training pipeline for fine-tuning LLaMA 2 using Optimistic PPO.</p>
